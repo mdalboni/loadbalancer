@@ -1,8 +1,8 @@
 class BaseModel:
-    '''
+    """
     Default class for the Servers and Users.
     If needed it can be used to track the children classes based on theirs ids and names.
-    '''
+    """
     id: int
     name: str
 

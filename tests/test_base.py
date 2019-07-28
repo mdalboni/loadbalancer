@@ -5,12 +5,12 @@ from app import config_settings
 
 class TestConfigBase(unittest.TestCase):
     """
-
+    Base class for tests loading default presets
     """
     file_input = 'example_success'
 
-    default_file = f'tests/inputs/{file_input}'  # if using IDE Support use 'inputs/{file_input}' instead
-    output_file = f'tests/outputs/{file_input}'  # if using IDE Support use 'outputs/{file_input}' instead
+    default_file = f'tests/inputs/{file_input}'
+    output_file = f'tests/outputs/{file_input}'
 
     default_user_entry = [1, 3, 0, 1, 0, 1]
     ttask_test = 4

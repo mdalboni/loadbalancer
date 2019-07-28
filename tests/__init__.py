@@ -7,7 +7,7 @@ from tests.test_base import TestConfigBase
 
 class TestSuccess(TestConfigBase):
     """
-
+    Test expecting success
     """
     file_input = 'example_success_2'
     default_file = f'tests/inputs/{file_input}'
@@ -22,7 +22,7 @@ class TestSuccess(TestConfigBase):
 
     def test_user_queue(self):
         self.assertEqual(type(self.default_user_entry), list, "The var default_user_entry isn't list type.")
-        self.assertEqual(len(self.config_settings.next_ticks), len(self.default_user_entry),
+        self.assertEqual(len(self.config_settings.user_queue), len(self.default_user_entry),
                          "Queue length isn't the same.")
         for user in self.default_user_entry:
             self.assertEqual(self.config_settings.get_next_tick_users(), user,
@@ -34,9 +34,11 @@ class TestSuccess(TestConfigBase):
 
 class TestNoUsers(TestConfigBase):
     """
-
+    Test for no users in queue
     """
     file_input = 'test_no_users'
+    default_file = f'tests/inputs/{file_input}'
+    output_file = f'tests/outputs/{file_input}'
 
     def test_empty_user_queue(self):
         self.assertEqual(self.expected_output, Application(test=True).run())
@@ -44,9 +46,11 @@ class TestNoUsers(TestConfigBase):
 
 class TestTTaskFailure(TestConfigBase):
     """
-
+    Test for failing ttask load
     """
     file_input = 'test_ttask_error'
+    default_file = f'tests/inputs/{file_input}'
+    output_file = f'tests/outputs/{file_input}'
 
     def setUp(self):
         try:
@@ -56,15 +60,17 @@ class TestTTaskFailure(TestConfigBase):
         except:
             self.assertTrue(False, "The config didn't raise the correct exception")
 
-    def test_empty_user_queue(self):
+    def test_result(self):
         self.assertEqual(self.expected_output, Application(test=True).run())
 
 
 class TestUMaxFailure(TestConfigBase):
     """
-
+    Test for failing umax load
     """
     file_input = 'test_umax_error'
+    default_file = f'tests/inputs/{file_input}'
+    output_file = f'tests/outputs/{file_input}'
 
     def setUp(self):
         try:
@@ -74,7 +80,7 @@ class TestUMaxFailure(TestConfigBase):
         except:
             self.assertTrue(False, "The config didn't raise the correct exception")
 
-    def test_empty_user_queue(self):
+    def test_result(self):
         self.assertEqual(self.expected_output, Application(test=True).run())
 
 
