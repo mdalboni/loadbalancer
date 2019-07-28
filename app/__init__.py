@@ -4,9 +4,9 @@ from app.models.vm_server import VMServer
 
 
 class Application:
-    '''
+    """
     This is the core of the application module.
-    '''
+    """
     total_users: int
     vm_servers: [VMServer]
     output: str
@@ -14,9 +14,9 @@ class Application:
     test_mode: bool
 
     def __init__(self, test=False):
-        '''
+        """
         :param test: Use this param to return the result value and bypass the writing process.
-        '''
+        """
         self.vm_servers = []
         self.total_users = 0
         self.output = ''
@@ -24,17 +24,15 @@ class Application:
         self.test_mode = test
 
     def run(self):
-        '''
+        """
         Starts the process and simulates the ticks and servers.
-
+        The process will loop until the q
         :return: If test is enabled it will return the output text
-        '''
-        new_users = 1
+        """
 
-        while new_users or self.vm_servers:
+        while self.vm_servers or len(config_settings.user_queue) > 0:
             self.process_vms_ticks()
-
-            new_users = self.process_new_users()
+            self.process_new_users()
 
             users_per_server = [len(server.users) for server in self.vm_servers]
 
@@ -54,12 +52,11 @@ class Application:
             file.write(self.output)
 
     def process_new_users(self) -> int:
-        '''
+        """
         Get the new users from the queue and pass to the allocation method.
 
-        :return:
-        int : total of new users
-        '''
+        :return: total of new users
+        """
         new_users = config_settings.get_next_tick_users()
         for idx in range(new_users):
             self.total_users += 1
@@ -67,10 +64,10 @@ class Application:
         return new_users
 
     def process_vms_ticks(self):
-        '''
+        """
         Loops all servers updating their tick infos.
         If the server is empty it will be closed
-        '''
+        """
         for server_idx in range(len(self.vm_servers) - 1, -1, -1):
             self.vm_servers[server_idx].update_tick()
 
@@ -78,17 +75,17 @@ class Application:
                 self.close_server(server_idx)
 
     def close_server(self, server_idx: int):
-        '''
+        """
         Closes the chosen server.
         :param server_idx: Server position inside the list.
-        '''
+        """
         self.vm_servers.pop(server_idx)
 
-    def allocate_user(self, user):
-        '''
-        Sorts the servers descending, avoiding the creationg of unnecessary new servers.
+    def allocate_user(self, user: User):
+        """
+        Sorts the servers descending, avoiding the creation of unnecessary new servers.
         :param user: new user ready for allocation
-        '''
+        """
         allocate_new_server = True
         self.vm_servers.sort(key=lambda x: len(x.users), reverse=True)
 
